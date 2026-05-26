@@ -1,0 +1,26 @@
+{
+  "name": "commit-docket",
+  "version": "0.1.0",
+  "description": "I turn git commit ranges into concise release notes and risk summaries.",
+  "type": "module",
+  "bin": {
+    "commit-docket": "./bin/commit-docket.js"
+  },
+  "scripts": {
+    "lint": "node --check bin/commit-docket.js && node --check src/cli.js && node --check src/config.js && node --check src/formatter.js && node --check src/git.js && node --check src/index.js && node --check src/parser.js",
+    "test": "node --test",
+    "ci": "npm run lint && npm test"
+  },
+  "keywords": [
+    "release-notes",
+    "changelog",
+    "git",
+    "cli",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
