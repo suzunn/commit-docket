@@ -1,6 +1,17 @@
 import { defaultSections } from './config.js';
 import { parseCommit } from './parser.js';
 
+/**
+ * Build the release-note data model from raw git commits.
+ *
+ * The model keeps the original commit metadata, adds Conventional Commit
+ * parsing, groups commits into configured sections, and summarizes the
+ * release risk signals used by the Markdown and JSON formatters.
+ *
+ * @param {Array<object>} commits Raw commit objects returned by the git reader.
+ * @param {object} [options] Optional range and normalized config values.
+ * @returns {object} Release summary, sections, risks, highlights, and contributors.
+ */
 export function createReleaseModel(commits, options = {}) {
   const config = options.config ?? {};
   const ignoredTypes = new Set(config.ignoredTypes ?? []);
@@ -31,6 +42,14 @@ export function createReleaseModel(commits, options = {}) {
   };
 }
 
+/**
+ * Infer the smallest SemVer bump that covers the parsed commit list.
+ *
+ * Breaking changes take precedence over feature and patch-level commits.
+ *
+ * @param {Array<object>} commits Parsed commit objects.
+ * @returns {'major'|'minor'|'patch'|'none'} Suggested version bump.
+ */
 export function inferVersionBump(commits) {
   if (commits.some((commit) => commit.breaking)) {
     return 'major';
